@@ -15,6 +15,13 @@
       <span class="mr-2">Profile</span>
     </v-btn>
     <v-btn text v-for="(menu,index) in menus" :key="index" :to="{name:menu.route}">{{menu.name}}</v-btn>
+    <v-progress-linear
+      :active="loading"
+      :indeterminate="loading"
+      absolute
+      bottom
+      color="blue accent-4"
+    ></v-progress-linear>
   </v-app-bar>
 </template>
 
@@ -22,6 +29,8 @@
 export default {
   data: () => ({
     token: null,
+    loading: false,
+
     menus: [],
     noAuthMenu: [
       { name: "Register", route: "register" },
@@ -29,7 +38,12 @@ export default {
     ],
     authMenu: [{ name: "Logout", route: "logout" }]
   }),
-
+  watch: {
+    loading(val) {
+      if (!val) return;
+      setTimeout(() => (this.loading = false), 500);
+    }
+  },
   methods: {
     onLoggedIn() {
       this.menus = this.authMenu;
@@ -48,10 +62,12 @@ export default {
     this.menus = this.noAuthMenu;
     Bus.$on("loggedIn", () => {
       this.onLoggedIn();
+      this.loading = true;
     });
 
     Bus.$on("logout", () => {
       this.onLogout();
+      this.loading = true;
     });
   }
 };

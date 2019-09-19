@@ -1,4 +1,5 @@
 <template>
+
   <v-container>
     <v-card flat class="white mx-auto mt-5 pb-1" width="900">
       <div>
@@ -24,6 +25,7 @@
         </v-card-actions>
       </v-form>
     </v-card>
+    
   </v-container>
 </template>
 
@@ -41,10 +43,6 @@ export default {
   methods: {
     preformLogin: function() {
       this.loading = true;
-      // console.log(`hello ${this.username} and ${this.password}`);
-      // this.username = "";
-      // this.password = "";
-      // this.$router.push("/");
       axios
         .post("/login", {
           email: this.email,
