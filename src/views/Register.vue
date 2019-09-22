@@ -2,7 +2,13 @@
   <v-container>
     <v-card flat class="white mx-auto mt-5 pb-1" width="900">
       <div>
-        <v-alert text outlined color="warning" icon="info" v-if="rightLogin">{{rightLogin}}</v-alert>
+        <v-alert
+          prominent
+          type="warning"
+          dismissible
+          v-model="alert"
+          v-if="rightLogin"
+        >{{rightLogin}}</v-alert>
       </div>
       <v-card-title>
         <h1 class="grey--text display-1">Register</h1>
@@ -48,7 +54,7 @@ export default {
     confirm: "",
     error: "",
     rightLogin: "",
-    loading: false
+    loading: false,
   }),
   methods: {
     preformRegister() {
@@ -71,7 +77,12 @@ export default {
               "token",
               response.data.access_token
             );
-            const user = localStorage.setItem("user", response.data.user.name);
+            const user = localStorage.setItem("user", response.data.user);
+            const name = localStorage.setItem("name", response.data.user.name);
+            const email = localStorage.setItem(
+              "email",
+              response.data.user.email
+            );
 
             Bus.$emit("loggedIn");
             window.isSignedIn = true;

@@ -1,9 +1,14 @@
 <template>
-
   <v-container>
     <v-card flat class="white mx-auto mt-5 pb-1" width="900">
       <div>
-        <v-alert text outlined color="warning" icon="mdi-fire" v-if="error">{{error}}</v-alert>
+        <v-alert
+          v-model="alert"
+          prominent
+          type="warning"
+          dismissible
+          v-if="error"
+        >{{error}}</v-alert>
       </div>
 
       <v-form>
@@ -21,11 +26,15 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn depressed color="info ml-3" @click.prevent="preformLogin" :loading="loading">Login</v-btn>
+          <v-btn
+            depressed
+            color="info ml-3"
+            @click.prevent="preformLogin"
+            :loading="loading"
+          >Login</v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
-    
   </v-container>
 </template>
 
@@ -37,12 +46,14 @@ export default {
     email: "",
     password: "",
     error: "",
-    loading: false
+    loading: false,
+    alert: false
   }),
 
   methods: {
     preformLogin: function() {
       this.loading = true;
+      this.alert = true
       axios
         .post("/login", {
           email: this.email,
@@ -55,10 +66,10 @@ export default {
             response.data.access_token
           );
           const user = localStorage.setItem("user", response.data.user);
-          // this.rightLogin = "welcome";
+          const name = localStorage.setItem("name", response.data.user.name);
+          const email = localStorage.setItem("email", response.data.user.email);
 
           this.loading = false;
-
 
           window.isSignedIn = true;
           Bus.$emit("loggedIn");
@@ -68,7 +79,6 @@ export default {
           // store user and token in localstorge
         })
         .catch(error => {
-          // console.log(error);
           this.error = error.message;
           this.loading = false;
         });

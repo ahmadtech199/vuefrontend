@@ -6,7 +6,10 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 Vue.use(Vuetify);
 
 export default new Vuetify({
-  icons: {
-    iconfont: ['mdi','md']
-  },
+  if(icons = null) {
+    icons: {
+      iconfont: ['mdi', 'md']
+    }
+
+  }
 });
