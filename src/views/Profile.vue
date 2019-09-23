@@ -51,21 +51,18 @@ export default {
   }),
   created() {
     // show user and token in localstorge
+
+    this.token = localStorage.getItem("token");
     this.name = localStorage.getItem("name");
     this.email = localStorage.getItem("email");
-    this.token = localStorage.getItem("token");
+
   },
-  // computed: {
-  //   user() {
-  //     console.log(this.user.name)
-  //     return this.user;
-  //   }
-  // },
 
   methods: {
     preformUpdate: function() {
       this.loading = true;
       this.msgupdate = "Updated your profile";
+
       this.alert = true;
       axios
         .patch("/profile", {
@@ -75,6 +72,8 @@ export default {
         .then(response => {
           this.name = localStorage.setItem("name", response.data.user.name);
           this.email = localStorage.setItem("email", response.data.user.email);
+          this.name = localStorage.getItem("name");
+          this.email = localStorage.getItem("email");
           this.loading = false;
         })
         .catch(error => {

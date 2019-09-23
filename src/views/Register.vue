@@ -55,10 +55,12 @@ export default {
     error: "",
     rightLogin: "",
     loading: false,
+    alert: false
   }),
   methods: {
     preformRegister() {
       this.loading = true;
+      this.alert = true;
 
       if (this.confirm == this.password) {
         // (this.name = name), (this.email = email), (this.password = password);
@@ -77,12 +79,13 @@ export default {
               "token",
               response.data.access_token
             );
-            const user = localStorage.setItem("user", response.data.user);
+            // const user = localStorage.setItem("user", response.data.user);
             const name = localStorage.setItem("name", response.data.user.name);
             const email = localStorage.setItem(
               "email",
               response.data.user.email
             );
+           
 
             Bus.$emit("loggedIn");
             window.isSignedIn = true;
@@ -94,9 +97,11 @@ export default {
           .catch(error => {
             // console.log(error);
             this.error = error.message;
+            this.loading = false;
           });
       } else {
         this.rightLogin = "This confirm password not equal password ";
+        this.loading = false;
       }
     }
   }

@@ -33,7 +33,7 @@
     "vuetify-loader": "^1.2.2"
   },
   "eslintConfig": {
-  "rules": {
+    "rules": {
       "no-console": 0
     }
   }
